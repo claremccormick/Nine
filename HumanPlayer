@@ -1,0 +1,54 @@
+import java.util.*;
+public class HumanPlayer {
+
+	public int QuitFunction()
+	{
+	    Scanner scan = new Scanner(System.in);
+	    char function = scan.next().charAt(0);
+	    
+	    if(function == 'Q' || function == 'q'){
+	    	System.out.println("Are you sure that you want to quit? y/n ");
+	    	Scanner n = new Scanner(System.in);
+	    	char quit = scan.next().charAt(0);
+	    	
+	    	if(quit == 'y' || quit == 'Y'){
+	    		System.out.println("You have just quit the backgammon game");
+		        System.exit(0);
+	    	}
+	    	
+	    	return 0;
+	    }
+	    
+	    else if (function != scan.nextInt()){
+	        System.out.println("Error...entry doesn't compute");
+	        return 0;
+	    }
+	    
+	    return function;
+	}
+	
+	public void MakeMove(){
+		
+	}
+	
+	public void SyntaxError(){
+		
+	}
+	
+	public void PassFunction(){
+		Scanner scan = new Scanner(System.in);
+	    
+		System.out.println("Do you want to play or pass?");
+		String playORpass = scan.nextLine();
+	    
+		if(playORpass == "pass" || playORpass == "Pass"){
+	    	System.out.println("Next player");
+	    	PassFunction();
+		}
+	    
+		else if(playORpass == "play" || playORpass == "Play"){
+			MakeMove();
+	    	return;
+		}
+	}
+}
