@@ -1,0 +1,138 @@
+public class Board {
+	
+	private static final int[] RESET = {0,0,0,0,0,0,5,0,3,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,2,0};
+	private static final int BAR  = 25;   // index of the BAR
+	private static final int OFF  = 0;    // index of the BEAR OFF
+	public static final int X_PLAYER = 0;
+	public static final int O_PLAYER = 1;
+	
+	private int[][] checkers = new int[2][26];
+			// 2D array of checkers
+	        // 1st index: 0 = X's checkers, 1 = O's checkers 
+			// 2nd index: number of checkers on each pip, 0 to 25
+			// pip 0 is bear off, pip 25 is the bar, pips 1-24 are on the baord
+	
+	
+	Board () {
+		for (int p=0; p<2; p++)  {
+			for (int i=0; i<26; i++)   {
+				checkers[p][i] = RESET[i];
+			}
+		}
+	}
+	
+	
+	public int[] roll (int numDice) {
+		// Roll one or two dice
+		int[] dice = new int[numDice];
+		
+		for (int i=0; i<numDice; i++) {
+			dice[i] = 1 + (int)(Math.random() * 6);   
+		}
+		return dice;
+	}
+	
+	
+	public void doPlay (int player, Play play) {
+		// move checkers 
+		int startPip, endPip;
+		int oppPlayer, oppPip;
+		Move move;
+		
+		if (player == X_PLAYER)  {
+			oppPlayer = O_PLAYER;
+		}
+		else  {
+			oppPlayer = X_PLAYER;
+		}
+	
+	    for (int i=0; i<play.length(); i++) {
+	    	move = play.getMove(i);
+	    	startPip = move.getFromPip();
+	    	checkers[player][startPip] -= 1;
+    		endPip   = startPip - move.getByPips();
+     		if (endPip < OFF)	{							// check for long bear offs
+	    		endPip = OFF;   
+     		}
+	    	checkers[player][endPip] += 1;
+	    	oppPip = BAR-endPip;
+	    	if ((checkers[oppPlayer][oppPip]==1) && (endPip!=BAR) && (endPip!=OFF))	{	// check for HIT
+	    		checkers[oppPlayer][oppPip] -= 1;
+	    		checkers[oppPlayer][BAR] += 1;
+	    	}
+	    }	
+	}
+
+	
+	private void displayPip (int pip) {
+		// display the number of checkers on a pip
+		int oppPip = BAR-pip;  
+		
+		if  (checkers[X_PLAYER][pip] > 0) {
+			System.out.print("X" + checkers[X_PLAYER][pip] + "  ");
+		}
+		else
+			if (checkers[O_PLAYER][oppPip] > 0) {
+				System.out.print("O" + checkers[O_PLAYER][oppPip] + "  ");
+			}
+			else {
+				System.out.print("|   ");	
+			}
+		return;
+	}
+
+	
+	private void displayOffBoard (int player, int pip) {
+		// display the number of checkers on the bar or on the bear off
+		if  (checkers[player][pip] > 0) {
+			if (player == X_PLAYER) {
+				System.out.print("X");
+			}
+			else {
+				System.out.print("O");
+			}
+			System.out.print(checkers[player][pip] + "  "); 
+		}
+		else {
+			System.out.print("    ");	
+		}
+		return;
+	}
+	
+	
+	public void displayBoard () {
+		// display the whole board
+		// board is facing player 0
+		// player 0 is X anti-clockwise, player 1 is O clockwise
+		
+		// far boards
+		System.out.println("13--+---+---+---+---18 BAR  19--+---+---+---+---24  OFF");
+		for (int i=13; i<=18; i++) {
+			displayPip(i);                // player 1 outer board
+		}
+		displayOffBoard(X_PLAYER,BAR);       // player 0 bar
+		for (int i=19; i<=24; i++) {
+			displayPip(i);                // player 1 inner board
+		}
+		displayOffBoard(O_PLAYER,OFF);         // player 1 bear off
+		System.out.println("");
+
+		// separator
+		System.out.println("");
+
+		// near boards
+		for (int i=12; i>=7; i--) {
+			displayPip(i);                 // player 0 outer board
+		}
+		displayOffBoard(O_PLAYER,BAR);          // player 1 bar
+		for (int i=6; i>=1; i--) {
+			displayPip(i);                 // player 0 inner board
+		}
+		displayOffBoard(X_PLAYER,OFF);        // player 0 bear off
+		System.out.println("");
+
+		System.out.println("12--+---+---+---+---07 BAR  06--+---+---+---+---01  OFF");
+		System.out.println("");
+	}
+	
+}
