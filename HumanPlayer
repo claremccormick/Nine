@@ -28,11 +28,28 @@ public class HumanPlayer {
 	}
 	
 	public void MakeMove(){
-		
+		String moveChecker;
 	}
 	
 	public void SyntaxError(){
 		
+		String moveChecker;
+		String[] subString;
+		
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Please enter the moves you wish to make: ");
+		moveChecker = scan.nextLine();
+		
+		subString = moveChecker.split("\\s+");
+		
+		if(subString = in.useDelimiter("[1-24]-[1-6]") ){
+			MakeMove();
+		}
+		
+		else{
+			System.out.println("SYNTAX ERROR: invalid move entry. Try again");
+			SyntaxError();
+		}
 	}
 	
 	public void PassFunction(){
