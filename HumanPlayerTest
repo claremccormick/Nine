@@ -1,0 +1,43 @@
+import java.util.*;
+public class HumanPlayerTest {
+	
+	public static void main(String[] args){
+
+	Board gameBoard = new Board();
+	HumanPlayer player = new HumanPlayer();
+	Play play = new Play(); 
+	HumanPlayer playOrPass = new HumanPlayer();
+	
+	
+	gameBoard.displayBoard();
+	playOrPass.PassFunction();
+	player.MakeMove();
+	player.QuitFunction();
+	
+	gameBoard.displayBoard();
+	playOrPass.PassFunction();
+	player.MakeMove();
+	player.QuitFunction();
+
+	gameBoard.displayBoard();
+	playOrPass.PassFunction();
+	player.MakeMove();
+	player.QuitFunction();
+	
+	gameBoard.displayBoard();
+	playOrPass.PassFunction();
+	player.MakeMove();
+	player.QuitFunction();
+	
+	gameBoard.displayBoard();
+	playOrPass.PassFunction();
+	player.MakeMove();
+	player.QuitFunction();
+	
+	gameBoard.displayBoard();
+	playOrPass.PassFunction();
+	player.MakeMove();
+	player.QuitFunction();
+	}
+}
+
