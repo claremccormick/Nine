@@ -7,9 +7,9 @@ public class HumanPlayer {
 	    char function = scan.next().charAt(0);
 	    
 	    if(function == 'Q' || function == 'q'){
-	    	System.out.println("Are you sure that you want to quit? y/n ");
+	    	System.out.println("Are you sure that you want to quit? y/n "); //asks if user is sure that they want to quit
 	    	Scanner n = new Scanner(System.in);
-	    	char quit = scan.next().charAt(0);
+	    	char quit = scan.next().charAt(0); //checks if first letter typed in is quit
 	    	
 	    	if(quit == 'y' || quit == 'Y'){
 	    		System.out.println("You have just quit the backgammon game");
@@ -28,22 +28,27 @@ public class HumanPlayer {
 	}
 	
 	public void MakeMove(){
-		String moveChecker;
+		SyntaxError(); // calls syntaxError to check if move is in valid format
+		PassFunction(); // calls pass fuction to see if they want to play their moves or pass
+		Play play = new Play(); 
+		
+		play.setPlay();
+		
 	}
 	
-	public void SyntaxError(){
+	public String[] SyntaxError(){
 		
-		String moveChecker;
-		String[] subString;
+		String moveChecker; //variable to check the moves you wish to make
+		String[] subString; 
 		
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Please enter the moves you wish to make: ");
 		moveChecker = scan.nextLine();
 		
-		subString = moveChecker.split("\\s+");
+		subString = moveChecker.split("\\s+"); // splits move checker at the white spaces into substrings called subString
 		
-		if(subString = in.useDelimiter("[1-24]-[1-6]") ){
-			MakeMove();
+		if(subString = in.useDelimiter("[1-24]-[1-6]") ){ // meant to check if the substrings follow this format
+			return subString;
 		}
 		
 		else{
@@ -60,11 +65,10 @@ public class HumanPlayer {
 	    
 		if(playORpass == "pass" || playORpass == "Pass"){
 	    	System.out.println("Next player");
-	    	PassFunction();
+	    	MakeMove(); // calls the make move function to start again
 		}
 	    
 		else if(playORpass == "play" || playORpass == "Play"){
-			MakeMove();
 	    	return;
 		}
 	}
