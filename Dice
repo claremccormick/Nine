@@ -1,0 +1,20 @@
+
+class Dice {
+	
+	private static final int NUM_DICE = 2;
+	private int[] dice = {1,1};
+	
+	
+	public void rollDice () {
+		for (int i=0; i<NUM_DICE; i++) {
+			dice[i] = 1 + (int)(Math.random() * 6);   
+		}
+		return;
+	}
+	
+	
+	public void displayDice () {
+		System.out.println("Roll: " + dice[0] + " " + dice[1]);
+	}
+	
+}
