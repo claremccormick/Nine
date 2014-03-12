@@ -1,75 +1,84 @@
-import java.util.*;
+import java.util.Scanner;
+
 public class HumanPlayer {
 
-	public int QuitFunction()
-	{
-	    Scanner scan = new Scanner(System.in);
-	    char function = scan.next().charAt(0);
-	    
-	    if(function == 'Q' || function == 'q'){
-	    	System.out.println("Are you sure that you want to quit? y/n "); //asks if user is sure that they want to quit
-	    	Scanner n = new Scanner(System.in);
-	    	char quit = scan.next().charAt(0); //checks if first letter typed in is quit
-	    	
-	    	if(quit == 'y' || quit == 'Y'){
-	    		System.out.println("You have just quit the backgammon game");
-		        System.exit(0);
-	    	}
-	    	
-	    	return 0;
-	    }
-	    
-	    else if (function != scan.nextInt()){
-	        System.out.println("Error...entry doesn't compute");
-	        return 0;
-	    }
-	    
-	    return function;
+	public static final int QUIT = 0;
+	public static final int PASS = 1;
+	public static final int PLAY = 2;
+	
+	private int playerId;
+	private Play enteredPlay;
+	
+	
+	HumanPlayer (int setPlayerId) {
+		playerId = setPlayerId;
+	    return;
 	}
 	
-	public void MakeMove(){
-		SyntaxError(); // calls syntaxError to check if move is in valid format
-		PassFunction(); // calls pass fuction to see if they want to play their moves or pass
-		Play play = new Play(); 
-		
-		play.setPlay();
-		
+	
+	public int getPlayerId () {
+		return playerId;
 	}
 	
-	public String[] SyntaxError(){
-		
-		String moveChecker; //variable to check the moves you wish to make
-		String[] subString; 
-		
-		Scanner scan = new Scanner(System.in);
-		System.out.println("Please enter the moves you wish to make: ");
-		moveChecker = scan.nextLine();
-		
-		subString = moveChecker.split("\\s+"); // splits move checker at the white spaces into substrings called subString
-		
-		if(subString = in.useDelimiter("[1-24]-[1-6]") ){ // meant to check if the substrings follow this format
-			return subString;
-		}
-		
-		else{
-			System.out.println("SYNTAX ERROR: invalid move entry. Try again");
-			SyntaxError();
-		}
+	
+	public Play getPlay () {
+		return enteredPlay;
 	}
 	
-	public void PassFunction(){
-		Scanner scan = new Scanner(System.in);
-	    
-		System.out.println("Do you want to play or pass?");
-		String playORpass = scan.nextLine();
-	    
-		if(playORpass == "pass" || playORpass == "Pass"){
-	    	System.out.println("Next player");
-	    	MakeMove(); // calls the make move function to start again
-		}
-	    
-		else if(playORpass == "play" || playORpass == "Play"){
-	    	return;
-		}
+	
+	public int getDecision () {
+		// if user enters "quit" the return value is null
+		// otherwise the return value is equal to the move entered
+	
+		Scanner in = new Scanner(System.in);
+		String command;
+		String[] commandArray;
+		int[] intCommandArray;
+		boolean valid = false;
+		int response = 0;
+		
+		do {
+			System.out.print("Enter move for player ");
+			Board.displayChecker(playerId);
+			System.out.print(": \t");
+
+			command = in.nextLine();
+			command = command.trim();
+			
+			if (command.equals("quit")) {
+				valid = true;
+				response = QUIT;
+				enteredPlay = null;
+			}
+			else if (command.equals("pass")) {
+				valid = true;
+				response = PASS;
+				enteredPlay = null;
+			}
+			else if (command.matches("([0-9]{1,2}( )*-( )*[1-6])(( )+[0-9]{1,2}( )*-( )*[1-6]){0,3}")) {
+				valid = true;
+				response = PLAY;
+				commandArray = command.split("( )*(-)+( )*|( )+");
+				intCommandArray = new int[commandArray.length];
+				for (int i=0; i<commandArray.length; i++) {
+					intCommandArray[i] = Integer.parseInt(commandArray[i]);
+				}
+				enteredPlay = new Play(intCommandArray);
+			}
+			else {
+				valid = false;
+			}
+			
+			if (!valid) {
+				System.out.println("Command syntax error");
+			}
+
+		} while (!valid);
+		
+		
+		return response;
 	}
+	
+	
+	
 }
