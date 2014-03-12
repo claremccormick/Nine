@@ -1,43 +1,25 @@
-import java.util.*;
-public class HumanPlayerTest {
-	
-	public static void main(String[] args){
+ public class HumanPlayerTest {
 
-	Board gameBoard = new Board();
-	HumanPlayer player = new HumanPlayer();
-	Play play = new Play(); 
-	HumanPlayer playOrPass = new HumanPlayer();
+	public static void main (String[] args) {
+		
+		Board gameBoard = new Board();
+		Dice gameDice = new Dice();
+		HumanPlayer player = new HumanPlayer(Board.X_PLAYER_ID);
+		int response;	
+		
+		do {
+			gameBoard.displayBoard();
+			gameDice.rollDice();
+			gameDice.displayDice();
+			response = player.getDecision();
+			if (response == HumanPlayer.PLAY) {
+					gameBoard.doPlay(player.getPlayerId(), player.getPlay());
+			}
+		} while (response != HumanPlayer.QUIT);
 	
-	
-	gameBoard.displayBoard();
-	playOrPass.PassFunction();
-	player.MakeMove();
-	player.QuitFunction();
-	
-	gameBoard.displayBoard();
-	playOrPass.PassFunction();
-	player.MakeMove();
-	player.QuitFunction();
-
-	gameBoard.displayBoard();
-	playOrPass.PassFunction();
-	player.MakeMove();
-	player.QuitFunction();
-	
-	gameBoard.displayBoard();
-	playOrPass.PassFunction();
-	player.MakeMove();
-	player.QuitFunction();
-	
-	gameBoard.displayBoard();
-	playOrPass.PassFunction();
-	player.MakeMove();
-	player.QuitFunction();
-	
-	gameBoard.displayBoard();
-	playOrPass.PassFunction();
-	player.MakeMove();
-	player.QuitFunction();
+		System.out.println("Test Complete");
+		
+		return;
 	}
-}
-
+	
+ }
