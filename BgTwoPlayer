@@ -1,0 +1,52 @@
+
+public class BgTwoPlayer {
+	
+	public static void main(String[] args){
+	
+	Dice rolldice = new Dice();
+	Board gameBoard = new Board();
+	HumanPlayer player = new HumanPlayer(Board.X_PLAYER_ID);
+	int response;
+	
+	rolldice.rollDice();
+	rolldice.initialRollPlayer1();
+	rolldice.initialRollPlayer2();
+	
+	do{
+		if(rolldice.dice[0] > rolldice.dice[1]){
+			System.out.println("Player X goes first, you rolled: " + rolldice.dice[0] + " and " + rolldice.dice[1]);
+		}
+	
+		else if(rolldice.dice[0] < rolldice.dice[1]){
+			System.out.println("Player O goes first, you rolled: " + rolldice.dice[0] + " and " + rolldice.dice[1]);
+		}
+	
+	} while(rolldice.dice[0] == rolldice.dice[1]);
+	
+	gameBoard.displayBoard();
+	response = player.getDecision();
+	if (response == HumanPlayer.PLAY) {
+		do{
+			gameBoard.doPlay(player.getPlayerId(), player.getPlay());
+			gameBoard.syntaxChecker(player.getPlayerId(), player.getPlay());
+		} while(gameBoard.syntaxChecker(playerId, play) != true);
+	}
+	
+	do {
+		gameBoard.displayBoard();
+		rolldice.rollDice();
+		rolldice.displayDice();
+		response = player.getDecision();
+		if (response == HumanPlayer.PLAY) {
+			do{
+				gameBoard.doPlay(player.getPlayerId(), player.getPlay());
+				gameBoard.syntaxChecker(player.getPlayerId(), player.getPlay());
+			}while(gameBoard.syntaxChecker(playerId, play) != true);
+		}
+	} while (response != HumanPlayer.QUIT);
+
+	System.out.println("Test Complete");
+	
+	return;
+	}
+}
