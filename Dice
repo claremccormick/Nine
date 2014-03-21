@@ -2,7 +2,7 @@
 class Dice {
 	
 	private static final int NUM_DICE = 2;
-	private int[] dice = {1,1};
+	int[] dice = {1,1};
 	
 	
 	public void rollDice () {
@@ -15,6 +15,16 @@ class Dice {
 	
 	public void displayDice () {
 		System.out.println("Roll: " + dice[0] + " " + dice[1]);
+	}
+	
+	public int initialRollPlayer1(){
+		System.out.println("Player X rolled: " + dice[0]);
+		return dice[0];
+	}
+	
+	public int initialRollPlayer2(){
+		System.out.println("Player O rolled: " + dice[1]);
+		return dice[1];
 	}
 	
 }
