@@ -223,7 +223,7 @@ public class Board {
 	    	}
 		}
 	    	
-		if(endPip = ){
+		if(endPip == oppPip ){
 	   		System.out.println("ERROR...opponent's block on ending pip");
 	   		return false;
 	    }
@@ -232,20 +232,23 @@ public class Board {
     		return false;
 	    }
 		
-	   	if(checkers[playerId][25] == true && startPip != 25){
+	   	if(checkers[playerId][6] + checkers[playerId][5] + checkers[playerId][4] + checkers[playerId][3] + checkers[playerId][2] + checkers[playerId][1] != 15){
 	   		System.out.println("ERROR...bearing off before all the checkers are in the inner board");
 	   		return false;
 	   	}
 	   	
-    	else if(){
+	   	for(int i = 6; i >= 1; i--){
+	   		if(checkers[playerId][i-1] == startPip && checkers[playerId][i] != 0){
 	   		System.out.println("ERROR...cannot bear off checker when it is not the last checker");
 	   		return false;
+	   		}
 	   	}
-	   	else if(){
+	   	
+	   	if(play.length() == 1 || play.length() == 3){
     		System.out.println("ERROR...dice not used and can be used");
 	   		return false;
 	   	}
-	   	else if(){
+	   	else if(checkers[playerId][25] >= 1 && startPip != 25){
 	   		System.out.println("ERROR...must bear on checker from the bar first");
     		return false;
 	   	}
