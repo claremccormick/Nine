@@ -1,0 +1,153 @@
+//
+// Team Name: Nine
+// Version:
+//
+
+import java.util.ArrayList;
+
+public class AiPlayer {
+
+	private int playerId;
+	private Board gameBoard;
+	private Dice gameDice;
+	
+	
+	AiPlayer (int setPlayerId, Board setBoard, Dice setDice) {
+		playerId = setPlayerId;
+		gameBoard = setBoard;
+		gameDice = setDice;
+	    return;
+	}
+	
+	
+	public int getPlayerId () {
+		return playerId;
+	}
+	
+	private int findBestBoard (ArrayList<Board> allBoardsList) {
+		int bestBoard = 0, score = 0, highestScore = 0;
+		
+		for(int i = 0; i<allBoardsList.size(); i ++){
+			score = scoreValue(allBoardsList.get(i));
+			if(score > highestScore){
+				highestScore = score;
+				bestBoard = i;
+			}
+		}
+		return bestBoard;
+	}
+	
+	private int scoreValue(Board board){
+		int sValue = 0;
+		
+		if(checkersBearOff(board)){
+			sValue += 5;
+		}
+		
+		if(hitsBlot(board)){
+			sValue += 5;
+		}
+		
+		if(allCheckersHome(board)) {
+			sValue += 3;
+		}
+			
+		if(landsOnOwn(board)){
+			sValue -= 1;
+		}
+			
+		if(protectPip(board)){
+			sValue += 1;
+		}	
+		return sValue;
+	}
+
+	private boolean checkersBearOff(Board board){
+		boolean checkersBearOff = false;
+
+		if(gameBoard.checkers[playerId][Board.OFF] < board.checkers[playerId][Board.OFF]){
+			checkersBearOff = true;
+		}
+		return checkersBearOff;
+	}
+	
+	private boolean hitsBlot(Board board){
+		int otherPlayer = gameBoard.opposingPlayer(playerId);
+		boolean hitsBlot = false;
+		
+		if(gameBoard.checkers[otherPlayer][Board.BAR] < board.checkers[otherPlayer][Board.BAR]){
+			hitsBlot = true;
+		}
+		return hitsBlot;
+	}
+	
+	private boolean allCheckersHome(Board board){
+		boolean allCheckersHome = false;
+
+		for(int i = 1; i < Board.NUM_PIPS; i++){
+			if(gameBoard.checkers[playerId][i] == 26 && board.checkers[playerId][i] <= 7){
+				allCheckersHome = true;
+			}
+				
+			if(allCheckersHome == true){
+				break;
+			}	
+		}
+		return allCheckersHome;
+	}
+	
+	private boolean landsOnOwn(Board board){
+		boolean landsOnOwn = false;
+
+		for(int i = 1; i < Board.NUM_PIPS-1; i++) {
+			if(gameBoard.checkers[playerId][i] != 1 && board.checkers[playerId][i] == 1){
+				landsOnOwn = true;
+			}
+			
+			if(landsOnOwn == true){
+				break;
+			}
+		}
+		return landsOnOwn;
+	}
+	
+	private boolean protectPip(Board board)
+	{
+		boolean protectPip = false;
+
+		for(int i = 1; i < Board.NUM_PIPS-1; i++){
+			if(gameBoard.checkers[playerId][i] == 1 && board.checkers[playerId][i] >= 2){
+				protectPip = true;
+			}
+			
+			if(protectPip == true){
+				break;
+			}
+		}
+		return protectPip;
+	}
+	
+	public Play getPlay () {
+		ArrayList<Play> allPlayList;
+		ArrayList<Board> allBoardsList = new ArrayList<Board>();
+		int bestBoard;
+		Play chosenPlay;
+		
+		allPlayList = gameBoard.allPossiblePlays (playerId, gameDice);
+		if (!allPlayList.isEmpty()) {
+			for (int i=0; i<allPlayList.size(); i++) {
+				allBoardsList.add(new Board(gameBoard));
+				allBoardsList.get(i).doPlay(playerId, allPlayList.get(i));
+			}
+			bestBoard = findBestBoard(allBoardsList);
+			chosenPlay = allPlayList.get(bestBoard);
+		}
+		else {
+			chosenPlay = new Play();
+		}
+		
+		return chosenPlay;
+	}
+		
+	
+}
